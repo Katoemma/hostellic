@@ -36,7 +36,7 @@ class CustomListItem extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 elevation: 0,
-                primary: Colors.grey[300],
+                // primary: Colors.grey[300],
               ),
               onPressed: onPressed,
               child: const Text(

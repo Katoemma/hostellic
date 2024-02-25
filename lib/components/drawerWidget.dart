@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hostelease/main.dart';
+import 'package:hostelease/screens/hostelListingScreen.dart';
 import 'package:hostelease/screens/loginScreen.dart';
 import 'package:hostelease/screens/profileScreen.dart';
 import 'package:hostelease/screens/settings.dart';
+import 'package:hostelease/utilities/hostels.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key, this.fname, this.lname, this.email})
@@ -20,7 +22,9 @@ class MyDrawer extends StatelessWidget {
 
     late String profilePicture = supabase.storage
         .from('avatars')
-        .getPublicUrl('kijani.jpg'); // Replace with your profile picture
+        .getPublicUrl('kijani.jpg'); 
+        
+    final List hostelList = staticHostelList;
 
     return Drawer(
       child: ListView(
@@ -40,9 +44,10 @@ class MyDrawer extends StatelessWidget {
                 fontSize: 14,
               ),
             ),
-            currentAccountPicture:  CircleAvatar(
+            currentAccountPicture: CircleAvatar(
               backgroundColor: Colors.white,
-              foregroundImage: profilePicture == null ? null : NetworkImage(profilePicture),
+              foregroundImage:
+                  profilePicture == null ? null : NetworkImage(profilePicture),
             ),
             decoration: const BoxDecoration(
               color: Colors.teal,
@@ -68,6 +73,12 @@ class MyDrawer extends StatelessWidget {
             ),
             onTap: () {
               // Navigate to bookings screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HostelListPage(hostelList),
+                ),
+              );
             },
           ),
           ListTile(
@@ -123,8 +134,11 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             title: Row(
               children: [
-                Icon(Icons.logout,color: Colors.red[200],),
-                Text('Logout',style:TextStyle(color: Colors.red[200])),
+                Icon(
+                  Icons.logout,
+                  color: Colors.red[200],
+                ),
+                Text('Logout', style: TextStyle(color: Colors.red[200])),
               ],
             ),
             onTap: () async {
